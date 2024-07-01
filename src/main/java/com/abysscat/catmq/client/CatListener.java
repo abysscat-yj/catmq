@@ -1,4 +1,6 @@
-package com.abysscat.catmq.core;
+package com.abysscat.catmq.client;
+
+import com.abysscat.catmq.model.CatMessage;
 
 /**
  * message listener.

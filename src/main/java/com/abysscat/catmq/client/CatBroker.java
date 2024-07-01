@@ -1,4 +1,4 @@
-package com.abysscat.catmq.core;
+package com.abysscat.catmq.client;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

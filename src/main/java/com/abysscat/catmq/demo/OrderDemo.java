@@ -1,9 +1,9 @@
 package com.abysscat.catmq.demo;
 
-import com.abysscat.catmq.core.CatBroker;
-import com.abysscat.catmq.core.CatConsumer;
-import com.abysscat.catmq.core.CatMessage;
-import com.abysscat.catmq.core.CatProducer;
+import com.abysscat.catmq.client.CatBroker;
+import com.abysscat.catmq.client.CatConsumer;
+import com.abysscat.catmq.model.CatMessage;
+import com.abysscat.catmq.client.CatProducer;
 import lombok.SneakyThrows;
 
 /**

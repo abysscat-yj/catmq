@@ -1,3 +1,6 @@
 spring:
   application:
     name: catmq
+
+server:
+  port: 8871

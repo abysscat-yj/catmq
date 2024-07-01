@@ -1,5 +1,6 @@
-package com.abysscat.catmq.core;
+package com.abysscat.catmq.client;
 
+import com.abysscat.catmq.model.CatMessage;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
