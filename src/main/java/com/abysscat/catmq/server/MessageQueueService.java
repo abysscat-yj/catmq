@@ -55,7 +55,9 @@ public class MessageQueueService {
 		if (messageQueue == null) throw new RuntimeException("topic not found");
 		if (messageQueue.getSubscriptions().containsKey(consumerId)) {
 			int ind = messageQueue.getSubscriptions().get(consumerId).getOffset();
-			return messageQueue.recv(ind);
+			CatMessage<?> recv = messageQueue.recv(ind + 1);
+			System.out.println("recv message: " + recv);
+			return recv;
 		}
 		throw new RuntimeException("subscriptions not found for topic/consumerId = "
 				+ topic + "/" + consumerId);

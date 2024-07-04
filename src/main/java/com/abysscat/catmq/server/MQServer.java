@@ -2,10 +2,10 @@ package com.abysscat.catmq.server;
 
 import com.abysscat.catmq.model.CatMessage;
 import com.abysscat.catmq.model.Result;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * MQ server endpoint.
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Author: abysscat-yj
  * @Create: 2024/7/2 1:38
  */
-@Controller
+@RestController
 @RequestMapping("/catmq")
 public class MQServer {
 
@@ -42,16 +42,16 @@ public class MQServer {
 
 	// 订阅topic
 	@RequestMapping("/sub")
-	public Result<String> subscribe(@RequestParam("t") String topic,
-									@RequestParam("cid") String consumerId) {
+	public Result<String> sub(@RequestParam("t") String topic,
+							  @RequestParam("cid") String consumerId) {
 		MessageQueueService.sub(new MessageSubscription(topic, consumerId, -1));
 		return Result.ok();
 	}
 
 	// 取消订阅topic
 	@RequestMapping("/unsub")
-	public Result<String> unsubscribe(@RequestParam("t") String topic,
-									  @RequestParam("cid") String consumerId) {
+	public Result<String> unsub(@RequestParam("t") String topic,
+								@RequestParam("cid") String consumerId) {
 		MessageQueueService.unsub(new MessageSubscription(topic, consumerId, -1));
 		return Result.ok();
 	}

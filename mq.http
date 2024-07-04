@@ -1,0 +1,14 @@
+### send
+GET http://localhost:8765/catmq/send?t=com.abysscat.catmq.test&cid=123
+Content-Type: application/json
+
+{
+  "id": "1",
+  "body": "test123"
+}
+
+### sub
+GET http://localhost:8765/catmq/sub?t=com.abysscat.catmq.test&cid=123
+
+### recv
+GET http://localhost:8765/catmq/recv?t=com.abysscat.catmq.test&cid=123

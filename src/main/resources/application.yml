@@ -3,4 +3,4 @@ spring:
     name: catmq
 
 server:
-  port: 8871
+  port: 8765
