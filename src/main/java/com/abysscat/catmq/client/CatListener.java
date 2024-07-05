@@ -1,6 +1,6 @@
 package com.abysscat.catmq.client;
 
-import com.abysscat.catmq.model.CatMessage;
+import com.abysscat.catmq.model.Message;
 
 /**
  * message listener.
@@ -10,6 +10,6 @@ import com.abysscat.catmq.model.CatMessage;
  */
 public interface CatListener<T> {
 
-	void onMessage(CatMessage<T> message);
+	void onMessage(Message<T> message);
 
 }

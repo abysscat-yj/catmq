@@ -1,11 +1,13 @@
 package com.abysscat.catmq.server;
 
-import com.abysscat.catmq.model.CatMessage;
+import com.abysscat.catmq.model.Message;
 import com.abysscat.catmq.model.Result;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * MQ server endpoint.
@@ -20,16 +22,23 @@ public class MQServer {
 	// 发送消息
 	@RequestMapping("/send")
 	public Result<String> send(@RequestParam("t") String topic,
-							   @RequestParam("cid") String consumerId,
-							   @RequestBody CatMessage<String> message) {
-		return Result.ok("" + MessageQueueService.send(topic, consumerId, message));
+							   @RequestBody Message<String> message) {
+		return Result.ok("" + MessageQueueService.send(topic, message));
 	}
 
-	// 接收消息
+	// 拉取消息
 	@RequestMapping("/recv")
-	public Result<CatMessage<?>> recv(@RequestParam("t") String topic,
-									  @RequestParam("cid") String consumerId) {
+	public Result<Message<?>> recv(@RequestParam("t") String topic,
+								   @RequestParam("cid") String consumerId) {
 		return Result.msg(MessageQueueService.recv(topic, consumerId));
+	}
+
+	// 批量拉取消息
+	@RequestMapping("/batch")
+	public Result<List<Message<?>>> batch(@RequestParam("t") String topic,
+										  @RequestParam("cid") String consumerId,
+										  @RequestParam(name = "size", required = false, defaultValue = "1000") int size) {
+		return Result.msg(MessageQueueService.batch(topic, consumerId, size));
 	}
 
 	// 确认消息

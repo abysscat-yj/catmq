@@ -1,6 +1,6 @@
 package com.abysscat.catmq.client;
 
-import com.abysscat.catmq.model.CatMessage;
+import com.abysscat.catmq.model.Message;
 import lombok.AllArgsConstructor;
 
 /**
@@ -14,12 +14,8 @@ public class CatProducer {
 
 	private CatBroker broker;
 
-	public boolean send(String topic, CatMessage<?> message) {
-		CatMq mq = broker.find(topic);
-		if (mq == null) {
-			throw new RuntimeException("topic not found");
-		}
-		return mq.send(message);
+	public boolean send(String topic, Message<?> message) {
+		return broker.send(topic, message);
 	}
 
 }

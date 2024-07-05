@@ -1,6 +1,9 @@
 package com.abysscat.catmq.client;
 
-import com.abysscat.catmq.model.CatMessage;
+import com.abysscat.catmq.model.Message;
+import lombok.Getter;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * cat consumer.
@@ -10,28 +13,43 @@ import com.abysscat.catmq.model.CatMessage;
  */
 public class CatConsumer<T> {
 
+	private String id;
 	CatBroker broker;
 
-	String topic;
+	@Getter
+	private CatListener listener;
 
-	CatMq mq;
+	static AtomicInteger idgen = new AtomicInteger(0);
 
 	public CatConsumer(CatBroker broker) {
 		this.broker = broker;
+		this.id = "CID" + idgen.getAndIncrement();
 	}
 
-	public void subscribe(String topic) {
-		this.topic = topic;
-		mq = broker.find(topic);
-		if (mq == null) {
-			throw new RuntimeException("topic not found");
-		}
-	}
-	public CatMessage<T> poll(long timeout) {
-		return mq.poll(timeout);
+	public void sub(String topic) {
+		broker.sub(topic, id);
 	}
 
-	public void listen(CatListener<T> listener) {
-		mq.addListener(listener);
+	public void unsub(String topic) {
+		broker.unsub(topic, id);
 	}
+
+	public Message<T> recv(String topic) {
+		return broker.recv(topic, id);
+	}
+
+	public boolean ack(String topic, int offset) {
+		return broker.ack(topic, id, offset);
+	}
+
+	public boolean ack(String topic, Message<?> message) {
+		int offset = Integer.parseInt(message.getHeaders().get("X-offset"));
+		return ack(topic, offset);
+	}
+
+	public void listen(String topic, CatListener<T> listener) {
+		this.listener = listener;
+		broker.addConsumer(topic, this);
+	}
+
 }

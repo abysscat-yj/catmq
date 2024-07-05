@@ -1,6 +1,6 @@
 package com.abysscat.catmq.client;
 
-import com.abysscat.catmq.model.CatMessage;
+import com.abysscat.catmq.model.Message;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * cat mq.
+ * cat mq for local test.
  *
  * @Author: abysscat-yj
  * @Create: 2024/6/26 1:25
@@ -18,7 +18,7 @@ public class CatMq {
 
 	private String topic;
 
-	private final LinkedBlockingQueue<CatMessage> queue = new LinkedBlockingQueue<>();
+	private final LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<>();
 
 	private List<CatListener> listeners = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class CatMq {
 		this.topic = topic;
 	}
 
-	public boolean send(CatMessage<?> message){
+	public boolean send(Message<?> message){
 		boolean offered = queue.offer(message);
 		listeners.forEach(listener -> listener.onMessage(message));
 		return offered;
@@ -34,7 +34,7 @@ public class CatMq {
 
 	// 拉模式
 	@SneakyThrows
-	public <T> CatMessage<T> poll(long timeout)  {
+	public <T> Message<T> poll(long timeout)  {
 		return queue.poll(timeout, TimeUnit.MILLISECONDS);
 	}
 

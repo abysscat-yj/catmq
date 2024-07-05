@@ -3,6 +3,8 @@ package com.abysscat.catmq.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * MQServer Result.
  *
@@ -25,11 +27,15 @@ public class Result<T> {
 		return new Result<>(1, msg);
 	}
 
-	public static Result<CatMessage<?>> msg(String msg) {
-		return new Result<>(1, CatMessage.create(msg, null, null));
+	public static Result<Message<?>> msg(String msg) {
+		return new Result<>(1, Message.create(msg, null, null));
 	}
 
-	public static Result<CatMessage<?>> msg(CatMessage<?> msg) {
+	public static Result<Message<?>> msg(Message<?> msg) {
+		return new Result<>(1, msg);
+	}
+
+	public static Result<List<Message<?>>> msg(List<Message<?>> msg) {
 		return new Result<>(1, msg);
 	}
 }

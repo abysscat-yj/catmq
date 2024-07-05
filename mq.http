@@ -1,14 +1,16 @@
+### sub
+GET http://localhost:8765/catmq/sub?t=a&cid=123
+
 ### send
-GET http://localhost:8765/catmq/send?t=com.abysscat.catmq.test&cid=123
+POST http://localhost:8765/catmq/send?t=a&cid=123
 Content-Type: application/json
 
 {
-  "id": "1",
-  "body": "test123"
+  "body" : "{\"id\":5,\"item\":\"item3\",\"price\":3.0}"
 }
 
-### sub
-GET http://localhost:8765/catmq/sub?t=com.abysscat.catmq.test&cid=123
-
 ### recv
-GET http://localhost:8765/catmq/recv?t=com.abysscat.catmq.test&cid=123
+GET http://localhost:8765/catmq/recv?t=a&cid=123
+
+### ack
+GET http://localhost:8765/catmq/ack?t=a&cid=123&offset=1

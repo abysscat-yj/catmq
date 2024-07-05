@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CatMessage<T> {
+public class Message<T> {
 
 	private Long id;
 
@@ -25,12 +26,12 @@ public class CatMessage<T> {
 	/**
 	 * 系统属性
 	 */
-	private Map<String, String> headers;
+	private Map<String, String> headers = new HashMap<>();
 
 	/**
 	 * 业务属性
 	 */
-	private Map<String, String> properties;
+	private Map<String, String> properties = new HashMap<>();
 
 	static AtomicLong ID_GEN = new AtomicLong(0);
 
@@ -38,9 +39,9 @@ public class CatMessage<T> {
 		return ID_GEN.incrementAndGet();
 	}
 
-	public static CatMessage<String> create(
+	public static Message<String> create(
 			String body, Map<String, String> headers, Map<String, String> properties) {
-		return new CatMessage<>(genId(), body, headers, properties);
+		return new Message<>(genId(), body, headers, properties);
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.abysscat.catmq.server;
 
-import com.abysscat.catmq.model.CatMessage;
+import com.abysscat.catmq.model.Message;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class MessageQueue {
 
 	private String topic;
 
-	private CatMessage<?>[] queue = new CatMessage[1024 * 10];
+	private Message<?>[] queue = new Message[1024 * 10];
 
 	@Getter
 	private Map<String, MessageSubscription> subscriptions = new HashMap<>();
@@ -28,25 +28,27 @@ public class MessageQueue {
 		this.topic = topic;
 	}
 
-	public int send(CatMessage<?> message) {
+	public int send(Message<?> message) {
 		if (index >= queue.length) {
 			return -1;
 		}
+		// 消息头中加入offset，方便客户端消费后ack
+		message.getHeaders().put("X-offset", String.valueOf(index));
 		queue[index++] = message;
 		return index;
 	}
 
-	public CatMessage<?> recv(int ind) {
+	public Message<?> recv(int ind) {
 		if (ind <= index) return queue[ind];
 		return null;
 	}
 
-	public void subscribe(MessageSubscription subscription) {
+	public void sub(MessageSubscription subscription) {
 		String consumerId = subscription.getConsumerId();
 		subscriptions.putIfAbsent(consumerId, subscription);
 	}
 
-	public void unsubscribe(MessageSubscription subscription) {
+	public void unsub(MessageSubscription subscription) {
 		String consumerId = subscription.getConsumerId();
 		subscriptions.remove(consumerId);
 	}
