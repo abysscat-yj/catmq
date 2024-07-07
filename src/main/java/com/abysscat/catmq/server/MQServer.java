@@ -2,6 +2,8 @@ package com.abysscat.catmq.server;
 
 import com.abysscat.catmq.model.Message;
 import com.abysscat.catmq.model.Result;
+import com.abysscat.catmq.model.Stat;
+import com.abysscat.catmq.model.Subscription;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +55,7 @@ public class MQServer {
 	@RequestMapping("/sub")
 	public Result<String> sub(@RequestParam("t") String topic,
 							  @RequestParam("cid") String consumerId) {
-		MessageQueueService.sub(new MessageSubscription(topic, consumerId, -1));
+		MessageQueueService.sub(new Subscription(topic, consumerId, -1));
 		return Result.ok();
 	}
 
@@ -61,8 +63,14 @@ public class MQServer {
 	@RequestMapping("/unsub")
 	public Result<String> unsub(@RequestParam("t") String topic,
 								@RequestParam("cid") String consumerId) {
-		MessageQueueService.unsub(new MessageSubscription(topic, consumerId, -1));
+		MessageQueueService.unsub(new Subscription(topic, consumerId, -1));
 		return Result.ok();
+	}
+
+	@RequestMapping("/stat")
+	public Result<Stat> stat(@RequestParam("t") String topic,
+							 @RequestParam("cid") String consumerId) {
+		return Result.stat(MessageQueueService.stat(topic, consumerId));
 	}
 
 }

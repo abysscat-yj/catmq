@@ -2,8 +2,9 @@ package com.abysscat.catmq.demo;
 
 import com.abysscat.catmq.client.CatBroker;
 import com.abysscat.catmq.client.CatConsumer;
-import com.abysscat.catmq.model.Message;
 import com.abysscat.catmq.client.CatProducer;
+import com.abysscat.catmq.model.Message;
+import com.abysscat.catmq.model.Stat;
 import com.alibaba.fastjson.JSON;
 import lombok.SneakyThrows;
 
@@ -59,6 +60,10 @@ public class Demo {
 					producer.send(topic, new Message<>((long) ids++, JSON.toJSONString(order), null, null));
 				}
 				System.out.println("produce 10 orders...");
+			}
+			if (c == 's') {
+				Stat stat = consumer.stat(topic);
+				System.out.println(stat);
 			}
 		}
 

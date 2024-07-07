@@ -1,6 +1,7 @@
 package com.abysscat.catmq.client;
 
 import com.abysscat.catmq.model.Message;
+import com.abysscat.catmq.model.Stat;
 import lombok.Getter;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -50,6 +51,10 @@ public class CatConsumer<T> {
 	public void listen(String topic, CatListener<T> listener) {
 		this.listener = listener;
 		broker.addConsumer(topic, this);
+	}
+
+	public Stat stat(String topic) {
+		return broker.stat(topic, id);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.abysscat.catmq.client;
 
 import com.abysscat.catmq.model.Message;
 import com.abysscat.catmq.model.Result;
+import com.abysscat.catmq.model.Stat;
 import com.abysscat.catutils.utils.HttpUtils;
 import com.abysscat.catutils.utils.ThreadUtils;
 import com.alibaba.fastjson.JSON;
@@ -109,5 +110,14 @@ public class CatBroker {
 
 	public void addConsumer(String topic, CatConsumer<?> consumer) {
 		consumers.add(topic, consumer);
+	}
+
+	public Stat stat(String topic, String cid) {
+		System.out.println(" ==>> stat topic/cid: " + topic + "/" + cid );
+		Result<Stat> result = HttpUtils.httpGet(
+				bokerUrl + "/stat?t=" + topic + "&cid=" + cid,
+				new TypeReference<Result<Stat>>(){});
+		System.out.println(" ==>> stat result: " + result);
+		return result.getData();
 	}
 }

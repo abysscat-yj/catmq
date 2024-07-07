@@ -1,4 +1,4 @@
-package com.abysscat.catmq.server;
+package com.abysscat.catmq.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class MessageSubscription {
+public class Subscription {
 
 	private String topic;
 
